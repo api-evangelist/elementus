@@ -1,8 +1,16 @@
 aid: elementus
 name: Elementus
-description: 'Elementus is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Elementus is a New York blockchain intelligence company founded in 2017
+  that attributes on-chain addresses to real-world entities across multiple chains,
+  and sells that attribution graph to compliance, investigations and market-intelligence
+  teams. Its public API surface is the Attribution API, a key-authenticated REST service
+  at attribution-api.elementus.io that resolves batches of blockchain addresses to
+  a beneficial owner, custodian, entity name and OFAC/SDN sanction status. As of the
+  2026-08-12 probe every Elementus web host — the marketing site, the app and the API
+  — is unresolvable in DNS, so the developer surface documented here is reconstructed
+  from the company''s own public GitHub organization rather than from a live site.'
 url: https://raw.githubusercontent.com/api-evangelist/elementus/refs/heads/main/apis.yml
+image: https://avatars.githubusercontent.com/u/31413970?v=4
 x-type: company
 x-source: harvest:secondary-market
 x-tier: stub
@@ -12,7 +20,34 @@ created: '2026-08-12'
 modified: '2026-08-12'
 tags:
 - Company
-apis: []
+- Blockchain
+- Cryptocurrency
+- Analytics
+- Compliance
+- Financial Crime
+- Sanctions Screening
+- Data
+- Web3
+apis:
+- name: Elementus Attribution API
+  description: 'REST API that resolves a batch of blockchain addresses to attribution
+    data — beneficial owner, custodian, entity name, OFAC sanction flag and SDN name.
+    Authenticated with an X-API-Key header. The operation surface documented in Elementus''
+    own public API example client is POST /address-attributions and GET /health, with
+    a Swagger UI advertised at /swagger-ui. The host does not currently resolve.'
+  humanURL: https://github.com/elementus-io/api-example
+  baseURL: https://attribution-api.elementus.io
+  tags:
+  - Attribution
+  - Blockchain
+  - Sanctions Screening
+  properties:
+  - type: Authentication
+    url: authentication/elementus-authentication.yml
+  - type: Conventions
+    url: conventions/elementus-conventions.yml
+  - type: SourceCode
+    url: https://github.com/elementus-io/api-example
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +55,39 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://www.elementus.io/
+- type: GitHubOrganization
+  url: https://github.com/elementus-io
+- type: Packages
+  url: packages/elementus-packages.yml
+- type: DomainSecurity
+  url: security/elementus-domain-security.yml
+- type: LLMsTxt
+  url: llms/elementus-llms.txt
+- type: Plans
+  url: plans/elementus-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/elementus-rate-limits.yml
+x-enrichment:
+  date: '2026-08-12'
+  status: minimal
+  artifacts_added: 8
+  pass: local-v1
+x-coverage:
+  state: none
+  reason: defunct
+  detail: >-
+    Elementus' entire web surface has been withdrawn from DNS — the apex publishes
+    no address record, www.elementus.io is NXDOMAIN, and both
+    attribution-api.elementus.io and app.elementus.io are dangling CNAMEs to an AWS
+    load balancer and a CloudFront distribution that no longer exist — while the
+    zone itself stays live on Cloudflare and still routes mail to Google Workspace,
+    so the company has parked its public presence rather than released the domain.
+  evidence:
+  - url: https://www.elementus.io/
+    status: 0
+  - url: https://attribution-api.elementus.io/swagger-ui
+    status: 0
+  - url: https://github.com/elementus-io/api-example
+    status: 200
+  checked: '2026-08-12'

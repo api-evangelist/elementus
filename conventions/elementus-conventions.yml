@@ -1,0 +1,112 @@
+generated: '2026-08-12'
+method: derived
+source: https://raw.githubusercontent.com/elementus-io/api-example/master/elementus.py
+name: Elementus Attribution API conventions
+api: Elementus Attribution API
+base_url: https://attribution-api.elementus.io
+description: >-
+  Cross-cutting runtime semantics for the Elementus Attribution API, derived
+  from Elementus' own first-party public example client. Every field below is
+  something that client demonstrably does or declares; anything the client does
+  not show is recorded as not-published rather than guessed.
+
+derived_from:
+  repository: https://github.com/elementus-io/api-example
+  first_party: true
+  file: elementus.py
+  last_commit: '2025-03-05'
+
+transport:
+  protocol: https
+  content_type: application/json
+  style: REST/RPC-flavored — flat resource-free paths, POST for reads
+
+authentication:
+  style: api-key-header
+  header: X-API-Key
+  see: authentication/elementus-authentication.yml
+
+operations:
+- method: POST
+  path: /address-attributions
+  summary: >-
+    Resolve a batch of blockchain addresses to attribution data — beneficial
+    owner, custodian, entity name, OFAC sanction flag, SDN name.
+  request:
+    field: addresses
+    type: array of address strings
+    min_items: 1
+    max_items_in_example_client: 10000
+    max_items_note: >-
+      The 10000 ceiling is annotated in the example client's own request model
+      as "Adding a reasonable limit" — it is the client author's guard, not a
+      documented server limit. Treat it as a hint, not a published contract.
+  response:
+    shape: 'object with a `data` map keyed by address'
+    fields:
+    - beneficial_owner
+    - custodian
+    - entity
+    - is_ofac_sanctioned
+    - sdn_name
+    - wallet_id
+- method: GET
+  path: /health
+  summary: Liveness check. Any non-error response means the API is up.
+
+batching:
+  supported: true
+  style: request-body array
+  note: >-
+    Batching is the primary access pattern — the single documented read
+    operation takes a list of addresses rather than one address per call.
+
+error_envelope:
+  format: proprietary-json
+  rfc9457: false
+  fields:
+  - name: message
+    note: >-
+      The example client reads error_data.get('message') off any >=400 JSON
+      body and falls back to the raw response text when the body is not JSON.
+  status_codes_enumerated: false
+  note: >-
+    No error code registry could be reached, so no errors/ catalog was derived.
+    All that is established is the envelope key and that failures are signalled
+    by HTTP status >= 400.
+
+idempotency:
+  supported: unknown
+  header: not-published
+  note: >-
+    No idempotency key, no retry guidance and no request-deduplication contract
+    appear in the first-party client or anywhere reachable. No Idempotency
+    pointer is emitted in apis.yml — the provider has not published one.
+
+pagination:
+  style: none-observed
+  note: >-
+    The batch operation returns one entry per requested address; no cursor,
+    offset or page parameter appears in the first-party client.
+
+versioning:
+  in_path: false
+  in_header: not-published
+  note: >-
+    The base URL carries no version segment and no version header appears in
+    the client. There is no published versioning or deprecation policy.
+
+rate_limits:
+  published: false
+  see: rate-limits/elementus-rate-limits.yml
+
+request_tracing:
+  request_id_header: not-published
+
+timeouts:
+  client_default_seconds: 10
+  note: The example client defaults to a 10 second total request timeout.
+
+field_expansion: not-published
+metadata: not-published
+webhooks: none-found

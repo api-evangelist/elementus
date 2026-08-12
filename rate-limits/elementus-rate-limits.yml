@@ -1,0 +1,45 @@
+generated: '2026-08-12'
+method: searched
+source: https://github.com/elementus-io/api-example
+name: Elementus Attribution API rate limits
+api: Elementus Attribution API
+description: >-
+  Elementus publishes no rate limits. No limit, window, burst, quota or
+  exhaustion status code appears in the only reachable first-party description
+  of the API, and no docs host resolves to check against.
+
+limit_count: 0
+headers_published: false
+response_headers: []
+exhaustion_status: not-published
+retry_after: not-published
+
+evidence:
+- url: https://raw.githubusercontent.com/elementus-io/api-example/master/elementus.py
+  status: 200
+  note: >-
+    The first-party client handles any HTTP status >= 400 through one generic
+    ElementusAPIError path. It does not special-case 429, does not read any
+    RateLimit-*, X-RateLimit-* or Retry-After header, and implements no backoff
+    or retry — so no runtime rate-limit signal is evidenced.
+- url: https://attribution-api.elementus.io/
+  status: 0
+  note: >-
+    Cannot be observed live: the API host is a dangling CNAME to a deleted AWS
+    load balancer (curl exit 6, DNS NXDOMAIN) on 2026-08-12.
+
+adjacent_limit:
+  field: addresses
+  max_items: 10000
+  scope: per-request batch size
+  authority: client-side-only
+  note: >-
+    NOT a published rate limit. The 10000-address ceiling is a guard the example
+    client's own author added, annotated in the source as "Adding a reasonable
+    limit". It says nothing about what the server enforces and is recorded here
+    only so it is not mistaken for a provider limit.
+
+note: >-
+  limit_count is an honest zero. An agent integrating this API has no published
+  runtime signal to pace itself against and would have to discover limits by
+  hitting them.

@@ -42,5 +42,20 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Elementus is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Elementus is a New York blockchain intelligence company founded in 2017 that attributes on-chain
+addresses to real-world entities across multiple chains, and sells that attribution graph to
+compliance, investigations and market-intelligence teams. Its public API surface is the Attribution
+API, a key-authenticated REST service at `attribution-api.elementus.io` that resolves batches of
+blockchain addresses to a beneficial owner, custodian, entity name and OFAC/SDN sanction status.
+
+**As of the 2026-08-12 probe, no Elementus web host resolves.** The `elementus.io` apex publishes no
+address record, `www.elementus.io` is NXDOMAIN, and both `attribution-api.elementus.io` and
+`app.elementus.io` are dangling CNAMEs pointing at AWS resources that no longer exist. The DNS zone
+itself is still live on Cloudflare and still routes mail to Google Workspace, so the domain has not
+been released — the public presence has been withdrawn. Everything documented in this profile was
+reconstructed from Elementus' own public GitHub organization, the only first-party surface that was
+reachable.
+
+- Website (unresolvable as of 2026-08-12): https://www.elementus.io/
+- GitHub organization (live): https://github.com/elementus-io
+- API example client (live): https://github.com/elementus-io/api-example

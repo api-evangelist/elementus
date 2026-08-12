@@ -1,0 +1,117 @@
+generated: '2026-08-12'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.elementus.io
+  https: false
+  failure: dns-nxdomain
+- host: attribution-api.elementus.io
+  https: false
+  failure: dangling-cname
+  cname: atapi-alb-370503343.us-east-1.elb.amazonaws.com
+domains:
+- domain: elementus.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+
+# --- Added by the enrichment pass, same probe date, same method. ---
+# The base probe records "https: false" for both hosts. The reason matters more
+# than the flag: this is not a TLS failure, it is an absent origin.
+
+dns_posture:
+  zone_live: true
+  nameservers:
+  - carmelo.ns.cloudflare.com
+  - magali.ns.cloudflare.com
+  mx_live: true
+  mx:
+  - aspmx.l.google.com
+  - alt1.aspmx.l.google.com
+  - alt2.aspmx.l.google.com
+  - alt3.aspmx.l.google.com
+  - alt4.aspmx.l.google.com
+  note: >-
+    The elementus.io zone is intact and still routes mail to Google Workspace,
+    but every web and API hostname under it is either missing or points at
+    infrastructure that no longer exists.
+
+findings:
+- id: apex-no-address-record
+  severity: informational
+  host: elementus.io
+  observed: 'NOERROR with no A, AAAA or CNAME answer'
+  detail: >-
+    The apex resolves in the sense that the zone answers, but it publishes no
+    address record, so the marketing site cannot be reached.
+  checked: '2026-08-12'
+
+- id: www-nxdomain
+  severity: informational
+  host: www.elementus.io
+  observed: NXDOMAIN
+  detail: >-
+    The primary marketing hostname has been removed from DNS. The Internet
+    Archive holds a 200 capture of it as recently as 2026-06-23; crawling of the
+    domain stops entirely after 2026-06-30.
+  checked: '2026-08-12'
+
+- id: dangling-cname-attribution-api
+  severity: medium
+  host: attribution-api.elementus.io
+  observed: 'CNAME -> atapi-alb-370503343.us-east-1.elb.amazonaws.com (NXDOMAIN)'
+  detail: >-
+    The production API hostname still publishes a CNAME to an AWS Application
+    Load Balancer that no longer exists. A dangling CNAME to a deprovisioned
+    AWS resource is a subdomain-takeover precondition: whoever next allocates a
+    load balancer able to answer for that name inherits the hostname.
+  remediation: >-
+    Remove the CNAME, or re-point it at infrastructure Elementus operates.
+  checked: '2026-08-12'
+
+- id: dangling-cname-app
+  severity: medium
+  host: app.elementus.io
+  observed: 'CNAME -> d31epqv6t9q4s6.cloudfront.net (NOERROR, no address)'
+  detail: >-
+    The application hostname points at a CloudFront distribution that is
+    disabled or deleted. Same takeover precondition as the API host.
+  remediation: >-
+    Remove the CNAME, or re-point it at a distribution Elementus operates.
+  checked: '2026-08-12'
+
+- id: staging-host-third-party-controlled
+  severity: high
+  host: api-staging.elementus.io
+  observed: 'CNAME -> ec2-34-231-243-167.compute-1.amazonaws.com (34.231.243.167); TCP connect times out'
+  detail: >-
+    THIRD-PARTY REPORT, NOT A LIVE OBSERVATION BY API EVANGELIST. The Internet
+    Archive's only capture of this hostname, taken 2026-05-30, is not an
+    Elementus page: it is a static page titled "Subdomain Takeover — Proof of
+    Concept" stating that the hostname resolved to a host controlled by a
+    self-identified security researcher, naming finding ID vbeta-c6lvZ-9z and
+    the contact address security@pentestsec.com. API Evangelist did not verify
+    the claim, did not contact the reporter, and takes no position on whether it
+    is genuine. What API Evangelist itself observed on 2026-08-12 is only this:
+    the hostname still publishes a CNAME to an EC2 instance hostname, and that
+    address accepts no connection on port 80 or 443.
+  evidence:
+  - url: http://web.archive.org/web/20260530064751/http://api-staging.elementus.io/
+    status: 200
+    note: archived third-party page, not served by Elementus infrastructure today
+  - url: https://api-staging.elementus.io/
+    status: 0
+    note: 'curl exit 28, connection timed out after 8s (2026-08-12)'
+  remediation: >-
+    Remove the dangling record for api-staging.elementus.io, or re-point it at a
+    host Elementus operates.
+  checked: '2026-08-12'
+
+summary: >-
+  SPF and DMARC are published (DMARC p=none, monitor-only). DNSSEC is not
+  enabled and no CAA record is published, so certificate issuance for
+  elementus.io is unconstrained — which compounds the three dangling hostnames
+  above, since an attacker who claims one can also obtain a certificate for it.
+  No TLS or HSTS posture could be measured on any host because no host answered.

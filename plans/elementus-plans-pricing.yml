@@ -1,0 +1,31 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.elementus.io/
+name: Elementus plans and pricing
+description: >-
+  No pricing or plans page could be read. Elementus never published a
+  self-serve pricing page in any surface API Evangelist can reach, and as of
+  this probe the marketing site does not resolve at all, so there is nothing
+  left to read even for a human. Access appears to have been a
+  contact-sales/demo motion throughout.
+
+plan_count: 0
+self_serve: false
+free_tier: null
+pricing_model: not-published
+
+evidence:
+- url: https://www.elementus.io/
+  status: 0
+  note: 'DNS NXDOMAIN (curl exit 6) on 2026-08-12'
+- url: https://www.elementus.io/schedule
+  status: 0
+  note: >-
+    The "schedule a demo" path, last successfully archived 2026-05-30, is the
+    closest thing to a commercial entry point Elementus published. Unreachable
+    on 2026-08-12.
+
+note: >-
+  plan_count is an honest zero: it records that no plan is published, not that
+  the pipeline failed to look. Both the live probe and the archival record are
+  consistent — Elementus sold through a demo request, not a price list.

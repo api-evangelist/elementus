@@ -1,0 +1,128 @@
+generated: '2026-08-12'
+method: probed
+source: https://attribution-api.elementus.io/.well-known/
+name: Elementus well-known probe
+description: >-
+  Probe of the RFC 8615 /.well-known/ namespace plus the common spec locations
+  across every Elementus host known to API Evangelist. Nothing was served,
+  because nothing resolves: four of the five hosts have no address record at
+  all, and the fifth accepts no TCP connection. No WellKnown or SecurityTxt
+  pointer is emitted in apis.yml — a recorded absence is data, not a surface.
+
+result: no-hit
+hits: 0
+paths_probed: 19
+hosts_probed: 5
+
+hosts:
+- host: www.elementus.io
+  role: marketing website
+  resolves: false
+  failure: dns-nxdomain
+  note: >-
+    NXDOMAIN at both 1.1.1.1 and 8.8.8.8. The Internet Archive holds a
+    successful 200 capture of this host as recently as 2026-06-23 and a 301
+    from the apex on 2026-06-30, after which crawling stops entirely.
+- host: elementus.io
+  role: apex domain
+  resolves: false
+  failure: dns-nodata
+  note: >-
+    The zone is live on Cloudflare nameservers (carmelo/magali.ns.cloudflare.com)
+    and carries Google Workspace MX records, but the apex has no A, AAAA or
+    CNAME record. The zone was not deleted; the web records were.
+- host: attribution-api.elementus.io
+  role: production API host
+  resolves: false
+  failure: dangling-cname
+  cname: atapi-alb-370503343.us-east-1.elb.amazonaws.com
+  note: >-
+    The CNAME is still published but the AWS Application Load Balancer it
+    points at no longer exists (NXDOMAIN on the ELB hostname).
+- host: app.elementus.io
+  role: web application
+  resolves: false
+  failure: dangling-cname
+  cname: d31epqv6t9q4s6.cloudfront.net
+  note: >-
+    The CloudFront distribution answers NOERROR/NODATA — the distribution is
+    disabled or deleted, so the hostname cannot be reached.
+- host: api-staging.elementus.io
+  role: staging API host
+  resolves: true
+  failure: connect-timeout
+  address: 34.231.243.167
+  cname: ec2-34-231-243-167.compute-1.amazonaws.com
+  note: >-
+    Resolves to an EC2 hostname but refuses TCP on 80 and 443 (curl exit 28).
+    See security/elementus-domain-security.yml — this record was the subject of
+    a third-party subdomain-takeover proof-of-concept captured by the Internet
+    Archive on 2026-05-30.
+
+probes:
+- path: /.well-known/security.txt
+  status: 0
+  file: null
+- path: /.well-known/openid-configuration
+  status: 0
+  file: null
+- path: /.well-known/oauth-authorization-server
+  status: 0
+  file: null
+- path: /.well-known/oauth-protected-resource
+  status: 0
+  file: null
+- path: /.well-known/api-catalog
+  status: 0
+  file: null
+- path: /.well-known/ai-plugin.json
+  status: 0
+  file: null
+- path: /.well-known/agent-card.json
+  status: 0
+  file: null
+- path: /.well-known/agent.json
+  status: 0
+  file: null
+- path: /llms.txt
+  status: 0
+  file: null
+- path: /openapi.json
+  status: 0
+  file: null
+- path: /openapi.yaml
+  status: 0
+  file: null
+- path: /swagger.json
+  status: 0
+  file: null
+- path: /swagger-ui
+  status: 0
+  file: null
+- path: /v1/openapi.json
+  status: 0
+  file: null
+- path: /api-docs
+  status: 0
+  file: null
+- path: /docs
+  status: 0
+  file: null
+- path: /redoc
+  status: 0
+  file: null
+- path: /health
+  status: 0
+  file: null
+- path: /robots.txt
+  status: 0
+  file: null
+
+notes:
+- status 0 means no HTTP response was obtained at all — the request never
+  reached a server. It is not a 404.
+- /swagger-ui is included because Elementus' own public API example client
+  names https://attribution-api.elementus.io/swagger-ui as the API definition;
+  that URL is unreachable as of this probe.
+- No agent card was found on any host, so no a2a/ artifact and no AgentCard
+  pointer were written.

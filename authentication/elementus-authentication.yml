@@ -1,0 +1,50 @@
+generated: '2026-08-12'
+method: derived
+source: https://raw.githubusercontent.com/elementus-io/api-example/master/elementus.py
+name: Elementus Attribution API authentication
+api: Elementus Attribution API
+base_url: https://attribution-api.elementus.io
+description: >-
+  Elementus publishes no authentication documentation page that is reachable —
+  every docs host is down (see well-known/elementus-well-known.yml). This
+  profile is derived from Elementus' own first-party public API example client,
+  which is the only live public description of how the Attribution API is
+  called. It is a faithful reading of that source, not a reading of a spec:
+  there is no OpenAPI to derive securitySchemes from.
+
+derived_from:
+  repository: https://github.com/elementus-io/api-example
+  owner: elementus-io
+  first_party: true
+  file: elementus.py
+  last_commit: '2025-03-05'
+
+schemes:
+- id: apiKey
+  type: apiKey
+  in: header
+  name: X-API-Key
+  description: >-
+    A per-account API key sent on every request in the X-API-Key header. The
+    example client reads it from an ELEMENTUS_API_KEY environment variable and
+    sets it once on the session, alongside Content-Type: application/json.
+  evidence: >-
+    ElementusClient.__init__ sets self.headers = {"X-API-Key": api_key,
+    "Content-Type": "application/json"} and applies it to every request.
+  applies_to: all documented operations
+
+oauth2: false
+openid_connect: false
+mutual_tls: false
+scopes: none-published
+rotation_policy: not-published
+key_issuance: not-published
+
+notes:
+- No OAuth2, OpenID Connect or mTLS surface was found on any Elementus host or
+  in any first-party source.
+- Because the scheme is a flat API key with no scope surface, no scopes/
+  artifact was written — an empty scope catalog would assert a permission model
+  the provider does not have.
+- Key issuance is presumably a sales/onboarding motion; no self-serve signup
+  page could be reached to confirm it.

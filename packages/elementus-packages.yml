@@ -1,0 +1,112 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, crates.io, api.github.com/orgs/elementus-io
+name: Elementus packages and client libraries
+description: >-
+  Elementus publishes no client library to any public package registry. The
+  only first-party client code it distributes is an example repository in its
+  own GitHub organization, which is source-only — there is no versioned,
+  installable artifact and therefore no registry metadata endpoint to read a
+  version or a release date from.
+
+package_count: 1
+official_sdk_count: 0
+
+registries_searched:
+- registry: npm
+  query: elementus
+  result: no-first-party-match
+  note: >-
+    Five packages match the string (elementus-ui, react-elementus,
+    @soppiya/elementus, elementus-ai, elementus-lib) — all published from
+    github.com/soppiyaCMS and github.com/Morph93, unrelated to elementus.io.
+- registry: pypi
+  queries:
+  - elementus
+  - elementus-api
+  - elementus-sdk
+  result: 404 on all
+- registry: rubygems
+  query: elementus
+  result: empty
+- registry: crates.io
+  query: elementus
+  result: empty
+- registry: maven-central
+  query: elementus
+  result: not-searched
+  note: No JVM surface is referenced anywhere in first-party material.
+- registry: nuget
+  query: elementus
+  result: not-searched
+  note: No .NET surface is referenced anywhere in first-party material.
+- registry: pkg.go.dev
+  query: elementus
+  result: not-searched
+  note: No Go surface is referenced anywhere in first-party material.
+
+packages:
+- name: api-example
+  language: python
+  official: true
+  registry: none
+  distribution: source-only
+  repository: https://github.com/elementus-io/api-example
+  install: git clone
+  version: null
+  published: null
+  version_note: >-
+    Checked, nothing to record. This is an unversioned, unpublished example
+    repository on the default branch `master` — there is no tag, no release and
+    no registry entry, so there is no version string or publication date that
+    exists to be read. The only currency signal available is the last push,
+    below.
+  last_commit: '2025-03-05'
+  currency_note: >-
+    Last pushed 2025-03-05, seventeen months before this probe. It is the
+    newest first-party client artifact Elementus has published, and it is the
+    only public description of the Attribution API contract that is still
+    reachable.
+  covers:
+  - POST /address-attributions
+  - GET /health
+  dependencies_declared:
+  - aiohttp
+  - pydantic
+  - python-dotenv
+
+github_organization:
+  url: https://github.com/elementus-io
+  public_repos: 6
+  created: '2017-08-28'
+  contact_email: hello@elementus.io
+  repositories:
+  - name: looker
+    language: LookML
+    last_push: '2026-01-12'
+    note: LookML repository; internal BI modelling, not a client library.
+  - name: api-example
+    language: Jupyter Notebook
+    last_push: '2025-03-05'
+    note: The Attribution API example client. See packages[] above.
+  - name: plustoken
+    last_push: '2019-08-21'
+    note: One-off research repo (PlusToken analysis).
+  - name: coinbene-analysis
+    last_push: '2019-03-27'
+    note: One-off research repo.
+  - name: cryptopia-hack
+    last_push: '2019-02-04'
+    note: One-off research repo.
+  - name: parity-wallet-freeze
+    language: JavaScript
+    last_push: '2017-11-13'
+    note: One-off research repo.
+
+notes:
+- No `SDKs` pointer is emitted in apis.yml. The sdk_count check reads a real
+  first-party installable client library, and Elementus ships none — crediting
+  an unversioned example repository as an SDK would be false.
+- The GitHub organization is the only Elementus-controlled public surface that
+  was reachable on 2026-08-12.
