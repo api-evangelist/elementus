@@ -64,20 +64,97 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Elementus is a New York blockchain intelligence company founded in 2017 that attributes on-chain
-addresses to real-world entities across multiple chains, and sells that attribution graph to
-compliance, investigations and market-intelligence teams. Its public API surface is the Attribution
-API, a key-authenticated REST service at `attribution-api.elementus.io` that resolves batches of
-blockchain addresses to a beneficial owner, custodian, entity name and OFAC/SDN sanction status.
+Elementus is a New York blockchain intelligence company founded in 2017 that attributes on-chain addresses to real-world entities across multiple chains, and sells that attribution graph to compliance, investigations and market-intelligence teams. Its public API surface is the Attribution API, a key-authenticated REST service at attribution-api.elementus.io that resolves batches of blockchain addresses to a beneficial owner, custodian, entity name and OFAC/SDN sanction status. As of the 2026-08-12 probe every Elementus web host — the marketing site, the app and the API — is unresolvable in DNS, so the developer surface documented here is reconstructed from the company's own public GitHub organization rather than from a live site.
 
-**As of the 2026-08-12 probe, no Elementus web host resolves.** The `elementus.io` apex publishes no
-address record, `www.elementus.io` is NXDOMAIN, and both `attribution-api.elementus.io` and
-`app.elementus.io` are dangling CNAMEs pointing at AWS resources that no longer exist. The DNS zone
-itself is still live on Cloudflare and still routes mail to Google Workspace, so the domain has not
-been released — the public presence has been withdrawn. Everything documented in this profile was
-reconstructed from Elementus' own public GitHub organization, the only first-party surface that was
-reachable.
+**Areas:** Company · Blockchain · Cryptocurrency · Analytics · Compliance · Financial Crime · Sanctions Screening · Data · Web3
 
-- Website (unresolvable as of 2026-08-12): https://www.elementus.io/
-- GitHub organization (live): https://github.com/elementus-io
-- API example client (live): https://github.com/elementus-io/api-example
+## Elementus on APIs.io
+
+Everything profiled for Elementus is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/elementus/](https://apis.io/providers/elementus/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Elementus Attribution API](https://apis.io/apis/elementus/elementus-attribution-api/) — REST API that resolves a batch of blockchain addresses to attribution data — beneficial owner, custodian, entity name, OFAC sanction flag and SDN name.…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Elementus Authentication](https://apis.io/security/elementus/elementus-authentication/)
+- [Elementus Domain Security](https://apis.io/security/elementus/elementus-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Elementus Plans Pricing](https://apis.io/plans/elementus/elementus-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Elementus Rate Limits](https://apis.io/rate-limits/elementus/elementus-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.elementus.io/)
+- [GitHub](https://github.com/elementus-io)
+
+## API Evangelist rating
+
+**Kin Score 8.8** — minimal · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 0.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 11.9 |
+| Access clarity | 0.0 |
+
+**Agent readiness 5.0** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 11.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/elementus/](https://apis.io/providers/elementus/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Elementus: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/elementus/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
